@@ -16,6 +16,9 @@ app.use(BodyParser.json());
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+const profile = require( './profile' );
+app.use( '/profile', profile );
+
 var database;
 
 app.listen(3300, () => {
