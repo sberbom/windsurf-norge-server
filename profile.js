@@ -85,7 +85,9 @@ const uploadsBusinessGallery = multer({
 
 router.post('/multiple-file-upload', (req, res) => {
     uploadsBusinessGallery(req, res, (error) => {
-        console.log('files', req.files);
+        console.log("Body: ", req.body);
+        // console.log("Name: ", req.body.spot.name);
+        // console.log('files', req.files);
         if (error) {
             console.log('errors', error);
             res.json({ error: error });

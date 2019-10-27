@@ -33,6 +33,7 @@ app.listen(3300, () => {
     });
 });
 
+/**Get all spots */
 app.get("/spots", (request, response) => {
     spotsdb.find().toArray((error, result) => {
         if(error) {
@@ -42,6 +43,7 @@ app.get("/spots", (request, response) => {
     });
 });
 
+/**Add spot */
 app.post('/add_spot', (req, res) => {
     const {name, description, approach, latlng} = req.body;
     spot = {
@@ -53,6 +55,19 @@ app.post('/add_spot', (req, res) => {
     };
     spotsdb.insertOne(spot);
     res.send(spot);
+});
+
+app.post("/spot/update", (req, res) => {
+    const {query, update, options} = req.body;
+    spotsdb.updateOne(query, update, options)
+        .then(result => {
+            const { matchedCount, modifiedCount } = result;
+            if (matchedCount && modifiedCount) {
+                console.log(`Successfully updated the item.`)
+                res.send(result)
+            }
+        })
+        .catch(err => console.error(`Failed to update the item: ${err}`))
 });
 
 app.post("/spot/:spotName", (request, response) => {
