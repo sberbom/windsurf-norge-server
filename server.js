@@ -57,6 +57,7 @@ app.post('/add_spot', (req, res) => {
     res.send(spot);
 });
 
+/**udate spot */
 app.post("/spot/update", (req, res) => {
     const {query, update, options} = req.body;
     spotsdb.updateOne(query, update, options)
@@ -70,8 +71,9 @@ app.post("/spot/update", (req, res) => {
         .catch(err => console.error(`Failed to update the item: ${err}`))
 });
 
-app.post("/spot/:spotName", (request, response) => {
-    spotsdb.findOne({ "_spotName": new ObjectId(request.params.id) }, (error, result) => {
+app.get("/oneSpot", (request, response) => {
+    spotsdb.findOne({ name: request.body.name }, (error, result) => {
+        console.log(result)
         if(error) {
             return response.status(500).send(error);
         }
@@ -79,6 +81,7 @@ app.post("/spot/:spotName", (request, response) => {
     });
 });
 
+/** log inn */
 app.post("/login", (request, response) => {
     userdb.findOne({"username": request.body.username}, (error, result) => {
         if(error) {
@@ -100,6 +103,7 @@ app.post("/login", (request, response) => {
     })
 })
 
+/** Registrer */
 app.post("/register", (req, res) => {
     const {username, password, email} = req.body;
     userdb.findOne({"username": username}, (err, result) => {
